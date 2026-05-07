@@ -1,6 +1,6 @@
 import fs from 'fs-extra';
 import { readdir } from 'fs/promises';
-import { exec } from 'child_process';
+import { exec, execFile } from 'child_process';
 import * as core from '@actions/core';
 import * as path from 'path';
 import nunjucks from 'nunjucks';
@@ -118,6 +118,41 @@ export function execCmd(command: string, workingDir?: string, trimResult = true)
       {
         cwd: workingDir,
         maxBuffer: 1024 * 1024 * 20
+      },
+      (error, stdout) => {
+        if (error) {
+          reject(error);
+        } else {
+          resolve(trimResult ? stdout.trim() : stdout);
+        }
+      }
+    );
+  });
+}
+
+/**
+ * Execute a command directly without going through a shell.
+ * Use this for commands with arguments that can contain spaces, quotes,
+ * parentheses, branch names, file names, or user-provided values.
+ * This avoids Windows cmd.exe quoting issues.
+ */
+export function execFileCmd(
+  file: string,
+  args: string[],
+  workingDir?: string,
+  trimResult = true
+): Promise<string> {
+  const displayCommand = [file, ...args].map((part) => JSON.stringify(part)).join(' ');
+  core.debug(`EXEC_FILE: ${displayCommand} IN ${workingDir ?? 'default'}`);
+
+  return new Promise((resolve, reject) => {
+    execFile(
+      file,
+      args,
+      {
+        cwd: workingDir,
+        maxBuffer: 1024 * 1024 * 20,
+        windowsHide: true
       },
       (error, stdout) => {
         if (error) {

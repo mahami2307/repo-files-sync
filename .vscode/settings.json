@@ -2,5 +2,12 @@
   "prettier.configPath": "./.github/linters/.prettierrc.yml",
   "eslint.options": {
     "overrideConfigFile": "./.github/linters/eslint.config.mjs"
+  },
+  "workbench.colorCustomizations": {
+    "editorCursor.foreground": "#e9dbb7",
+    "activityBarBadge.background": "#e9dbb7",
+    "activityBarBadge.foreground": "#262626",
+    "statusBar.background": "#262626",
+    "statusBar.foreground": "#e9dbb7"
   }
 }

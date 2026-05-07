@@ -5,7 +5,7 @@ import { throttling } from '@octokit/plugin-throttling';
 import * as path from 'path';
 
 import config from './config.js';
-import { dedent, execCmd, remove } from './helpers.js';
+import { dedent, execCmd, execFileCmd, remove } from './helpers.js';
 
 import type { RepoInfo, TreeDiffEntry, GitDiffDict } from './types.js';
 
@@ -347,7 +347,7 @@ export default class Git {
       message += `\n\n${COMMIT_BODY}`;
     }
 
-    return execCmd(`git commit -m '${message.replace(/'/g, "'\\''")}'`, this.workingDir);
+    return execFileCmd('git', ['commit', '-m', message], this.workingDir);
   }
 
   /**
