@@ -798,3 +798,18 @@ Contributions to the project are welcome! Please follow [Contributing Guide](htt
 ## 🛡️ License
 
 This project is distributed under the terms of the [MIT](https://github.com/raven-actions/repo-files-sync/blob/main/LICENSE) license.
+
+
+
+## Dev - steps to use for any changes:
+npm run build
+git add .
+git commit -m "chore: windows-only deps, clean package.json"
+git tag v1.0.1
+git push origin Dev
+git push origin v1.0.1
+
+git log --oneline -5 # too see latest v1.X.X registered
+git tag -f v1 # move v1 tag to latest
+git push origin v1 --force # move v1 tag to latest
+
